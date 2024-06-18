@@ -38,7 +38,6 @@ INSERT INTO carga_familiar (NOMBRE_CARGA, PARENTESCO, GENERO_CARGA, RUT_CARGA, I
 
 -- Insertar datos en la tabla USUARIOS
 INSERT INTO USUARIOS (RUT, NOMBRE_USUARIO, CONTRASENA) VALUES
-('21220806-k','gat', 'password123'),
+('21220806-K', 'gat', 'password123'),
 ('21508106-0', 'rukawa', 'securepass123'),
 ('20453875-4', 'wesesu', 'mypassword123');
-

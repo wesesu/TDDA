@@ -12,5 +12,5 @@ class Conexion:
         )
         self.cursor = self.connection.cursor()
         if self.connection.is_connected():
-            print("Conexión existosa a la base de datos!!1.")
+            print("Conexión existosa a la base de datos!!!.")
             
