@@ -1,7 +1,6 @@
-from empleado_dao import EmpleadoDao
+from empleado_dao_ej import EmpleadoDao
 from empleado import Empleado
 from os import system
-
 
 empleado_dao = EmpleadoDao()
 
