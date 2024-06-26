@@ -124,7 +124,7 @@ class EmpleadoDao:
             for empleado in empleados:
                 tabla.rows.append(empleado)
             print("Mostrando todos los empleados registrados:")
-            print(tabla)
+            return tabla
         except mysql.connector.Error as err:
             print(f"Error: {err}")
 
