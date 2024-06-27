@@ -1,7 +1,7 @@
 from empleado_dao_ej import EmpleadoDao
 from empleado import Empleado
 from os import system
-
+system('cls')
 
 empleado_dao = EmpleadoDao()
 
@@ -15,10 +15,12 @@ def opciones():
     print("Opción 7: Salir")
 
 def volver_menu():
-    system('cls')
+    
     input("Presione Enter para volver al menú principal...")
 while True:
+    
     system('cls')
+    
     opciones()
     opcion = input("Seleccione una opción entre 1 y 7: ")
     if opcion == '1':
@@ -116,7 +118,7 @@ while True:
 
             volver_menu()
             break
-
+            system('cls')
     elif opcion == "4":
         while True:
             print("\n1: Mostrar todos los empleados")
@@ -124,7 +126,7 @@ while True:
             sub_opcion = input("Seleccione una opción: ")
             if sub_opcion == '2':
                 break
-
+            system('cls')
             empleados = empleado_dao.obtenerEmpleados()
             print(empleados)
             volver_menu()
@@ -137,7 +139,7 @@ while True:
             sub_opcion = input("Seleccione una opción: ")
             if sub_opcion == '2':
                 break
-
+            system('cls')
             cargo = input("Ingrese el cargo a buscar: ")
             empleado_dao.empleadosPorCargo(cargo)
             
