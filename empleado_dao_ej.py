@@ -82,38 +82,107 @@ class EmpleadoDao:
         else:
             return 'No se encontró al empleado'
     
-    def actualizarEmpleado(self, empleado_actualizado):
-        empleado_existente = self.buscarEmpleado(empleado_actualizado.rut)
+    def actualizarEmpleado(self, rut_trabajador):
+        empleado_existente = self.buscarEmpleado(rut_trabajador)
         if empleado_existente is not None:
-            self.mysql.cursor.execute("START TRANSACTION")
-            try:
-                query_empleados = "UPDATE empleados SET NOMBRE = %s, GENERO_EMPLEADO = %s, DIRECCION = %s, TELEFONO = %s WHERE RUT = %s"
-                values_empleados = (
-                    empleado_actualizado.nombre, empleado_actualizado.sexo,
-                    empleado_actualizado.direccion, empleado_actualizado.telefono, empleado_existente.rut
-                )
-                self.mysql.cursor.execute(query_empleados, values_empleados)
+            while True:
+                print("\nSeleccione el aspecto que desea actualizar:")
+                print("1: Nombre")
+                print("2: Género")
+                print("3: Dirección")
+                print("4: Teléfono")
+                print("5: Cargo")
+                print("6: Fecha de Ingreso")
+                print("7: Área")
+                print("8: Departamento")
+                print("9: Nombre de Contacto de Emergencia")
+                print("10: Relación con Contacto de Emergencia")
+                print("11: Teléfono del Contacto de Emergencia")
+                print("12: Carga Familiar (Nombre)")
+                print("13: Carga Familiar (Parentesco)")
+                print("14: Carga Familiar (Género)")
+                print("15: Carga Familiar (RUT)")
+                print("16: Finalizar Actualización")
 
-                query_datos_laborales = "UPDATE datos_laborales SET CARGO = %s, FECHA_INGRESO = %s, AREA = %s, DEPARTAMENTO = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s) AND is_deleted = FALSE"
-                values_datos_laborales = (
-                    empleado_actualizado.cargo, empleado_actualizado.fecha_ingreso, empleado_actualizado.area,
-                    empleado_actualizado.departamento, empleado_existente.rut
-                )
-                self.mysql.cursor.execute(query_datos_laborales, values_datos_laborales)
+                opcion = input("Seleccione una opción: ")
 
-                query_contacto_emergencia = "UPDATE contacto_emergencia SET NOMBRE_CONTACTO = %s, RELACION = %s, TELEFONO_CONTACTO = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s) AND is_deleted = FALSE"
-                values_contacto_emergencia = (
-                    empleado_actualizado.nombre_contacto, empleado_actualizado.relacion, empleado_actualizado.telefono_contacto, empleado_existente.rut
-                )
-                self.mysql.cursor.execute(query_contacto_emergencia, values_contacto_emergencia)
+                if opcion == '1':
+                    nuevo_valor = input(f"Ingrese el nuevo nombre (actual: {empleado_existente.nombre}): ")
+                    query = "UPDATE empleados SET NOMBRE = %s WHERE RUT = %s"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '2':
+                    nuevo_valor = input(f"Ingrese el nuevo género (M/F) (actual: {empleado_existente.sexo}): ")
+                    query = "UPDATE empleados SET GENERO_EMPLEADO = %s WHERE RUT = %s"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '3':
+                    nuevo_valor = input(f"Ingrese la nueva dirección (actual: {empleado_existente.direccion}): ")
+                    query = "UPDATE empleados SET DIRECCION = %s WHERE RUT = %s"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '4':
+                    nuevo_valor = input(f"Ingrese el nuevo teléfono (actual: {empleado_existente.telefono}): ")
+                    query = "UPDATE empleados SET TELEFONO = %s WHERE RUT = %s"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '5':
+                    nuevo_valor = input(f"Ingrese el nuevo cargo (actual: {empleado_existente.cargo}): ")
+                    query = "UPDATE datos_laborales SET CARGO = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s)"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '6':
+                    nuevo_valor = input(f"Ingrese la nueva fecha de ingreso (YYYY-MM-DD) (actual: {empleado_existente.fecha_ingreso}): ")
+                    query = "UPDATE datos_laborales SET FECHA_INGRESO = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s)"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '7':
+                    nuevo_valor = input(f"Ingrese la nueva área (actual: {empleado_existente.area}): ")
+                    query = "UPDATE datos_laborales SET AREA = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s)"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '8':
+                    nuevo_valor = input(f"Ingrese el nuevo departamento (actual: {empleado_existente.departamento}): ")
+                    query = "UPDATE datos_laborales SET DEPARTAMENTO = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s)"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '9':
+                    nuevo_valor = input(f"Ingrese el nuevo nombre del contacto de emergencia (actual: {empleado_existente.nombre_contacto}): ")
+                    query = "UPDATE contacto_emergencia SET NOMBRE_CONTACTO = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s)"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '10':
+                    nuevo_valor = input(f"Ingrese la nueva relación con el contacto de emergencia (actual: {empleado_existente.relacion}): ")
+                    query = "UPDATE contacto_emergencia SET RELACION = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s)"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '11':
+                    nuevo_valor = input(f"Ingrese el nuevo teléfono del contacto de emergencia (actual: {empleado_existente.telefono_contacto}): ")
+                    query = "UPDATE contacto_emergencia SET TELEFONO_CONTACTO = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s)"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '12':
+                    nuevo_valor = input(f"Ingrese el nuevo nombre de la carga familiar (actual: {empleado_existente.nombre_carga}): ")
+                    query = "UPDATE carga_familiar SET NOMBRE_CARGA = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s)"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '13':
+                    nuevo_valor = input(f"Ingrese el nuevo parentesco de la carga familiar (actual: {empleado_existente.parentesco}): ")
+                    query = "UPDATE carga_familiar SET PARENTESCO = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s)"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '14':
+                    nuevo_valor = input(f"Ingrese el nuevo género de la carga familiar (actual: {empleado_existente.genero_carga}): ")
+                    query = "UPDATE carga_familiar SET GENERO_CARGA = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s)"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '15':
+                    nuevo_valor = input(f"Ingrese el nuevo RUT de la carga familiar (actual: {empleado_existente.rut_carga}): ")
+                    query = "UPDATE carga_familiar SET RUT_CARGA = %s WHERE ID_EMPLEADOS = (SELECT ID_EMPLEADOS FROM empleados WHERE RUT = %s)"
+                    values = (nuevo_valor, rut_trabajador)
+                elif opcion == '16':
+                    break
+                else:
+                    print("Opción no válida. Intente de nuevo.")
+                    continue
+            
+                try:
+                    self.mysql.cursor.execute("START TRANSACTION")
+                    self.mysql.cursor.execute(query, values)
+                    self.mysql.connection.commit()
+                    print("Actualización exitosa.")
+                except Exception as e:
+                    self.mysql.connection.rollback()
+                    print(f"Error al actualizar: {e}")
 
-                self.mysql.connection.commit()
-                return 'Empleado actualizado correctamente'
-            except Exception as e:
-                self.mysql.connection.rollback()
-                raise e
         else:
-            return 'Empleado no encontrado'
+            print("Empleado no encontrado")
     
     def obtenerEmpleados(self):
         try:
