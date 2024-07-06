@@ -123,6 +123,8 @@ while True:
             empleado_dao.empleadosPorCargo(cargo)
             
             
+            
+            
             volver_menu()
             break
 
@@ -133,9 +135,10 @@ while True:
             sub_opcion = input("Seleccione una opción: ")
             if sub_opcion == '2':
                 break
-
+            system('cls')
             cantidad = empleado_dao.cantidadEmpleados()
             print(f"La cantidad de empleados es: {cantidad[0]}")
+            
             
             volver_menu()
             break
